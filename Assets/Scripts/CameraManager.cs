@@ -1,18 +1,26 @@
 ﻿using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     public float DampTime = 5;
     public GameObject Target;
 
-    // Use this for initialization
-    void Start()
+    private static bool isInstantiated;
+
+    public void Awake()
     {
-	
-	}
+        if (!isInstantiated)
+        {
+            isInstantiated = true;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
+    }
     
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (Target == null)
         {

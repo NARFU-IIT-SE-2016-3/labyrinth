@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public float Speed;
+    public int Health;
     public GameObject Torch;
 
     private Rigidbody2D rb2d;
@@ -38,6 +39,11 @@ public class Player : MonoBehaviour
         rb2d.velocity = new Vector2(x, y);
 
         HandleInput();
+    }
+
+    public void OnEnterCollision2D(BoxCollider2D other)
+    {
+
     }
 
     private void HandleInput()

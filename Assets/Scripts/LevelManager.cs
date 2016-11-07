@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public class LevelManager : MonoBehaviour
 
     public Vector2 StartingPoint;
 
-    // Use this for initialization
     void Start()
     {
         if (Width <= 0 || Height <= 0)
@@ -24,12 +22,6 @@ public class LevelManager : MonoBehaviour
         //RenderMaze(maze);
         RenderLevel();
     }
-	
-	// Update is called once per frame
-	void Update()
-    {
-	
-	}
 
     public void RenderLevel()
     {

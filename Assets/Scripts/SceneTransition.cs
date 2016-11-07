@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneTransition : MonoBehaviour {
+public class SceneTransition : MonoBehaviour
+{
     public string SceneName;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 
     public void OnTriggerEnter2D(Collider2D other)
     {

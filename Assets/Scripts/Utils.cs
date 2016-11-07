@@ -1,13 +1,27 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Utility methods and helpers
+/// </summary>
 public static class Utils
 {
+    /// <summary>
+    /// Check if given chance (from 0 to 100%) is succesfull
+    /// </summary>
+    /// <param name="chance"></param>
+    /// <returns></returns>
     public static bool TestChance(float chance)
     {
         var actualChance = Random.Range(0, 100);
         return actualChance <= chance;
     }
 
+    /// <summary>
+    /// Get random array element
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="array"></param>
+    /// <returns></returns>
     public static T PickItem<T>(params T[] array)
     {
         return array[Random.Range(0, array.Length)];
