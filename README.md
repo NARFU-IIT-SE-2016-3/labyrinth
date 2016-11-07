@@ -1,2 +1,16 @@
-# labyrinth
-2d unity game
+# Labyrinth
+
+2D Unity game
+
+## Team
+
+- Puzyrev Sergey
+- Hvostov Viktor
+- Naumov Alexey
+- Ogurtsov Evgeniy
+
+## Features
+
+---
+
+2016

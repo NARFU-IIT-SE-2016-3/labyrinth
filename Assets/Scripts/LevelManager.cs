@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Wall;
     public GameObject Floor;
+    public GameObject Door;
 
     public Vector2 StartingPoint;
 
@@ -34,6 +35,8 @@ public class LevelManager : MonoBehaviour
     {
         var terrainGroup = new GameObject("TerrainGroup").transform;
 
+        var doorPos = new Vector3(Utils.RandInt(1, Width - 1), 0);
+
         for (var i = 0; i < Width; i++)
         {
             for (var j = 0; j < Height; j++)
@@ -41,16 +44,17 @@ public class LevelManager : MonoBehaviour
                 var floor = Instantiate(Floor, new Vector3(i, j), Quaternion.identity) as GameObject;
                 floor.transform.SetParent(terrainGroup);
 
-                if (i == 0 || j == 0 || i == Width - 1 || j == Height -1)
+                if (i == doorPos.x && j == doorPos.y)
+                {
+                    Instantiate(Door, doorPos, Quaternion.identity);
+                }
+                else if (i == 0 || j == 0 || i == Width - 1 || j == Height -1)
                 {
                     var wall = Instantiate(Wall, new Vector3(i, j), Quaternion.identity) as GameObject;
                     wall.transform.SetParent(terrainGroup);
                 }
             }
         }
-
-        var player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = StartingPoint;
     }
 
     public void RenderMaze(Maze.Cell[,] cells)

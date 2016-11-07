@@ -7,6 +7,20 @@ public class Player : MonoBehaviour
     public GameObject Torch;
 
     private Rigidbody2D rb2d;
+    private static bool isInstantiated;
+
+    public void Awake()
+    {
+        if (!isInstantiated)
+        {
+            isInstantiated = true;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
+    }
 
 	// Use this for initialization
 	public void Start()
