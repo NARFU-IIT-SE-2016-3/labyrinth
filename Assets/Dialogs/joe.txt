@@ -1,0 +1,3 @@
+﻿Hello, traveler!
+I hope you will find the way out of maze.
+Good luck!

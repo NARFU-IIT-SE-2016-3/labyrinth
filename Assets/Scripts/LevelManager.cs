@@ -51,17 +51,6 @@ public class LevelManager : MonoBehaviour
 
     public void RenderMaze(Maze.Cell[,] cells)
     {
-        for (var i = 0; i < cells.GetLength(0); i++)
-        {
-            for (var j = 0; j < cells.GetLength(1); j++)
-            {
-                Debug.Log(string.Format("{0}, {1}: {2}", i, j, cells[i, j].IsEdge));
-
-                if (cells[i, j].IsEdge)
-                {
-                    Instantiate(Wall, new Vector3(i / 2, j / 2), Quaternion.identity);
-                }
-            }
-        }
+        
     }
 }
