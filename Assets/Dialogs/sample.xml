@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dialog>
+  <Option Id="0" Text="Hello">
+    <Line>Welcome!</Line>
+  </Option>
+  <Option Id="1" Text="Bye" Trigger="Exit">
+    
+  </Option>
+</Dialog>
