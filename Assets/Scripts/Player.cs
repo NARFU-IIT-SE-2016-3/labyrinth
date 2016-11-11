@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private static bool isInstantiated;
+    private Collider2D lastCollision;
 
     public void Awake()
     {
@@ -39,11 +40,15 @@ public class Player : MonoBehaviour
         rb2d.velocity = new Vector2(x, y);
 
         HandleInput();
+        CheckDistance();
     }
 
-    public void OnEnterCollision2D(BoxCollider2D other)
+    public void OnCollisionEnter2D(Collision2D other)
     {
-
+        if (other.collider.tag == "npc")
+        {
+            lastCollision = other.collider;
+        }
     }
 
     private void HandleInput()
@@ -59,6 +64,29 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(0);
+        }
+
+        // start dialog
+        if (Input.GetKeyDown(KeyCode.F) && lastCollision != null)
+        {
+            var dialog = lastCollision.GetComponent<DialogLoader>();
+            dialog.NextLine();
+        }
+    }
+
+    private void CheckDistance()
+    {
+        if (lastCollision == null)
+        {
+            return;
+        }
+
+        var dist = Vector3.Distance(lastCollision.transform.position, transform.position);
+
+        if (dist > 1)
+        {
+            lastCollision.GetComponent<DialogLoader>().ResetDialog();
+            lastCollision = null;
         }
     }
 }
