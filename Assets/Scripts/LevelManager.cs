@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        //var maze = Maze.GenerateOrthogonal(Width, Height, (int)StartingPoint.x, (int)StartingPoint.y, false);
+        var maze = new Maze(Width, Height, (int)StartingPoint.x, (int)StartingPoint.y);
         //RenderMaze(maze);
         RenderLevel();
     }
@@ -51,6 +51,41 @@ public class LevelManager : MonoBehaviour
 
     public void RenderMaze(Maze.Cell[,] cells)
     {
-        
+        for (var i = 0; i < Width; i++)
+        {
+            for (var j = 0; j < Height; j++)
+            {
+                var go = GetCellObject(cells[i, j]);
+                Instantiate(go, new Vector3(i, j), Quaternion.identity);
+            }
+        }
+    }
+
+    public GameObject GetCellObject(Maze.Cell cell)
+    {
+        var bin = cell.GetBinaryWalls();
+
+        //switch (bin)
+        //{
+        //    case 0x0000: return '\u253c';
+        //    case 0x0001: return '\u2524';
+        //    case 0x0010: return '\u251c';
+        //    case 0x0011: return '\u2502';
+        //    case 0x0100: return '\u2534';
+        //    case 0x0101: return '\u2518';
+        //    case 0x0110: return '\u2514';
+        //    //case 0x0111: return '\u2575';
+        //    case 0x1000: return '\u252c';
+        //    case 0x1001: return '\u2510';
+        //    case 0x1010: return '\u250c';
+        //    //case 0x1011: return '\u2577';
+        //    case 0x1100: return '\u2500';
+        //    //case 0x1101: return '\u2573';
+        //    //case 0x1110: return '\u2576';
+        //    //case 0x1111: return '\u2588';
+        //    default: return ' '; //'\u2588';
+        //}
+
+        return new GameObject();
     }
 }
