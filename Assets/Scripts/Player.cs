@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     private static bool isInstantiated;
     private Collider2D lastCollision;
 
+    private int maxLives = 3;
+    private int lives = 1;
+
     public void Awake()
     {
         if (!isInstantiated)
@@ -48,6 +51,18 @@ public class Player : MonoBehaviour
         if (other.collider.tag == "npc")
         {
             lastCollision = other.collider;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.name == "LifeItem")
+        {
+            if (lives < maxLives)
+            {
+                lives++;
+                Destroy(other.gameObject);
+            }
         }
     }
 
