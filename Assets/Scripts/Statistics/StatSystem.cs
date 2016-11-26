@@ -1,24 +1,48 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class StatSystem : MonoBehaviour {
 	private Text StatText;
 	private Image StatPanel;
 
-	private int collectedItems = 0;
-	private bool isOpened = false;
+	private Dictionary<string, int> stats;
+
+	private bool isOpened;
 
 	// Use this for initialization
 	void Start () {
 		StatPanel = GameObject.FindGameObjectWithTag("ui").transform.FindChild("StatPanel").GetComponent<Image>();
 		StatText = StatPanel.transform.FindChild("StatText").GetComponent<Text>();
+		isOpened = false;
 		StatPanel.gameObject.SetActive(false);
+
+		stats = new Dictionary<string, int>() {
+			{ "collectedItems", 0 },
+			{ "torchItems",  0 }
+		};
+
+		var player = GameObject.FindWithTag ("Player").GetComponent<Player> ();
+		player.OnCollect.AddListener (UpdateCollectStat);
+		player.OnTorchPlace.AddListener (UpdateTorchStat);
+	}
+
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			ToggleStats ();
+		}
 	}
 	
-	public void UpdateCollectStatistics()
+	public void UpdateCollectStat()
 	{
-		collectedItems++;
+		stats["collectedItems"]++;
+	}
+
+	public void UpdateTorchStat(){
+		stats["torchItems"]++;
 	}
 
 	public void ToggleStats() {
@@ -34,6 +58,8 @@ public class StatSystem : MonoBehaviour {
 
 	private string GetStatText()
 	{
-		return "Collected items: " + collectedItems;
+		return stats.Aggregate ("", (acc, cur) => {
+			return acc + string.Format("{0}: {1}\n", cur.Key.ToUpper(), cur.Value);
+		});
 	}
 }
