@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -7,12 +8,15 @@ public class Player : MonoBehaviour
     public int Health;
     public GameObject Torch;
 
+	public UnityEvent OnCollect;
+
     private Rigidbody2D rb2d;
     private static bool isInstantiated;
     private Collider2D lastCollision;
 
     private int maxLives = 3;
     private int lives = 1;
+	private StatSystem stats;
 
     public void Awake()
     {
@@ -31,6 +35,8 @@ public class Player : MonoBehaviour
 	public void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+		OnCollect = new UnityEvent ();
+		stats = GameObject.Find ("GameManager").GetComponent<StatSystem> ();
 	}
 
     public void FixedUpdate()
@@ -62,6 +68,7 @@ public class Player : MonoBehaviour
             {
                 lives++;
                 Destroy(other.gameObject);
+				stats.UpdateCollectStatistics ();
             }
         }
     }
@@ -87,6 +94,12 @@ public class Player : MonoBehaviour
             var dialog = lastCollision.GetComponent<DialogLoader>();
             dialog.NextLine();
         }
+
+		// show stat
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			stats.ToggleStats ();
+		}
     }
 
     private void CheckDistance()

@@ -18,7 +18,7 @@ public class EnemyScript : MonoBehaviour
 		// автоматическая стрельба
 		if (weapon != null && weapon.CanAttack)
 		{
-			weapon.Attack(true);
+			//weapon.Attack(true);
 		}
 	}
 }

@@ -20,8 +20,8 @@ public class LevelManager : MonoBehaviour
         }
 
         var maze = new Maze(Width, Height, 0, 0);
-        RenderMaze(maze);
-        //RenderLevel();
+        //RenderMaze(maze);
+        RenderLevel();
     }
 
     public void RenderLevel()
