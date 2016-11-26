@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public GameObject Wall;
     public GameObject Floor;
     public GameObject Door;
+    public GameObject Plank;
 
     public Vector2 StartingPoint;
 
@@ -18,9 +19,9 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        var maze = new Maze(Width, Height, (int)StartingPoint.x, (int)StartingPoint.y);
-        //RenderMaze(maze);
-        RenderLevel();
+        var maze = new Maze(Width, Height, 0, 0);
+        RenderMaze(maze);
+        //RenderLevel();
     }
 
     public void RenderLevel()
@@ -49,43 +50,53 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void RenderMaze(Maze.Cell[,] cells)
+    public void RenderMaze(Maze maze)
     {
-        for (var i = 0; i < Width; i++)
+        for (var i = 0; i < maze.Width; i++)
         {
-            for (var j = 0; j < Height; j++)
+            for (var j = 0; j < maze.Height; j++)
             {
-                var go = GetCellObject(cells[i, j]);
-                Instantiate(go, new Vector3(i, j), Quaternion.identity);
+                var cell = maze.Cells[i, j];
+                var x = i;
+                var y = -j;
+
+                if (cell.UpWall)
+                {
+                    var rotation = 270;
+                    var rotVect = transform.rotation.eulerAngles;
+                    rotVect.z = rotation;
+                    var quat = Quaternion.Euler(rotVect);
+                    Instantiate(Plank, new Vector3(x, y), quat);
+                }
+
+                if (cell.DownWall)
+                {
+                    var rotation = 90;
+                    var rotVect = transform.rotation.eulerAngles;
+                    rotVect.z = rotation;
+                    var quat = Quaternion.Euler(rotVect);
+                    Instantiate(Plank, new Vector3(x, y), quat);
+
+                }
+
+                if (cell.LeftWall)
+                {
+                    var rotation = 0;
+                    var rotVect = transform.rotation.eulerAngles;
+                    rotVect.z = rotation;
+                    var quat = Quaternion.Euler(rotVect);
+                    Instantiate(Plank, new Vector3(x, y), quat);
+                }
+
+                if (cell.RightWall)
+                {
+                    var rotation = 180;
+                    var rotVect = transform.rotation.eulerAngles;
+                    rotVect.z = rotation;
+                    var quat = Quaternion.Euler(rotVect);
+                    Instantiate(Plank, new Vector3(x, y), quat);
+                }
             }
         }
-    }
-
-    public GameObject GetCellObject(Maze.Cell cell)
-    {
-        var bin = cell.GetBinaryWalls();
-
-        //switch (bin)
-        //{
-        //    case 0x0000: return '\u253c';
-        //    case 0x0001: return '\u2524';
-        //    case 0x0010: return '\u251c';
-        //    case 0x0011: return '\u2502';
-        //    case 0x0100: return '\u2534';
-        //    case 0x0101: return '\u2518';
-        //    case 0x0110: return '\u2514';
-        //    //case 0x0111: return '\u2575';
-        //    case 0x1000: return '\u252c';
-        //    case 0x1001: return '\u2510';
-        //    case 0x1010: return '\u250c';
-        //    //case 0x1011: return '\u2577';
-        //    case 0x1100: return '\u2500';
-        //    //case 0x1101: return '\u2573';
-        //    //case 0x1110: return '\u2576';
-        //    //case 0x1111: return '\u2588';
-        //    default: return ' '; //'\u2588';
-        //}
-
-        return new GameObject();
     }
 }
