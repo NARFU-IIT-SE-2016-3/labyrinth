@@ -27,10 +27,25 @@ public class TrapSaw : MonoBehaviour
 	}
 	public void OnCollisionEnter2D(Collision2D other)
 	{
-		//if (G == "Player")
-		//{
+		Damage (10);
+		if (other.gameObject.tag == "Player")
+		{
+			Application.LoadLevel (Application.loadedLevel);
 			//Player.Destroy(Player);
-		//}
+		}
+		if (other.gameObject.tag == "Wall")
+		{
+			Damage (100);
+			//Player.Destroy(Player);
+		}
+	}
+	public void Damage(int damageCount){
+		HealthSaw -= damageCount;
+
+		if (HealthSaw <= 0) {
+			Destroy (gameObject);
+		}
+	
 	}
 
 }
