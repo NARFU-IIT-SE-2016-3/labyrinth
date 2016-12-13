@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     private int maxLives = 3;
     private int lives = 1;
+    private int maxTorches = 20;
+    private int torches = 20;
 
     public void Awake()
     {
@@ -64,16 +66,25 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        
     }
 
     private void HandleInput()
     {
         // torch placement
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && torches > 0)
         {
             var pos = new Vector3(transform.position.x, transform.position.y, Torch.transform.position.z);
             Instantiate(Torch, pos, Quaternion.identity);
+            torches--;
         }
+
+        // take torch
+        //if (Input.GetKeyDown(KeyCode.Q) && torches < maxTorches)
+        //{
+        //    Destroy(other.gameObject);
+        //    torches++;
+        //}
 
         // restart level
         if (Input.GetKeyDown(KeyCode.R))

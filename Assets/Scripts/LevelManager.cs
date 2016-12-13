@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
@@ -20,8 +21,24 @@ public class LevelManager : MonoBehaviour
         }
 
         var maze = new Maze(Width, Height, 0, 0);
+
+        RenderFloor();
         RenderMaze(maze);
         //RenderLevel();
+    }
+
+    public void RenderFloor()
+    {
+        var terrainGroup = new GameObject("FloorGroup").transform;
+
+        for (var i = 0; i < Width; i++)
+        {
+            for (var j = 0; j < Height; j++)
+            {
+                var floor = Instantiate(Floor, new Vector3(i, -j), Quaternion.identity) as GameObject;
+                floor.transform.SetParent(terrainGroup);
+            }
+        }
     }
 
     public void RenderLevel()
@@ -52,49 +69,43 @@ public class LevelManager : MonoBehaviour
 
     public void RenderMaze(Maze maze)
     {
+        Func<int, Quaternion> q = x => {
+            var rotVect = transform.rotation.eulerAngles;
+            rotVect.z = x;
+            return Quaternion.Euler(rotVect);
+        };
+
+        var group = new GameObject("MazeGroup").transform;
+
         for (var i = 0; i < maze.Width; i++)
         {
             for (var j = 0; j < maze.Height; j++)
             {
                 var cell = maze.Cells[i, j];
-                var x = i;
-                var y = -j;
+                var vect = new Vector3(j, -i);
 
                 if (cell.UpWall)
                 {
-                    var rotation = 270;
-                    var rotVect = transform.rotation.eulerAngles;
-                    rotVect.z = rotation;
-                    var quat = Quaternion.Euler(rotVect);
-                    Instantiate(Plank, new Vector3(x, y), quat);
+                    var obj = Instantiate(Plank, vect, q(270)) as GameObject;
+                    obj.transform.SetParent(group);
                 }
 
                 if (cell.DownWall)
                 {
-                    var rotation = 90;
-                    var rotVect = transform.rotation.eulerAngles;
-                    rotVect.z = rotation;
-                    var quat = Quaternion.Euler(rotVect);
-                    Instantiate(Plank, new Vector3(x, y), quat);
-
+                    var obj = Instantiate(Plank, vect, q(90)) as GameObject;
+                    obj.transform.SetParent(group);
                 }
 
                 if (cell.LeftWall)
                 {
-                    var rotation = 0;
-                    var rotVect = transform.rotation.eulerAngles;
-                    rotVect.z = rotation;
-                    var quat = Quaternion.Euler(rotVect);
-                    Instantiate(Plank, new Vector3(x, y), quat);
+                    var obj = Instantiate(Plank, vect, q(0)) as GameObject;
+                    obj.transform.SetParent(group);
                 }
 
                 if (cell.RightWall)
                 {
-                    var rotation = 180;
-                    var rotVect = transform.rotation.eulerAngles;
-                    rotVect.z = rotation;
-                    var quat = Quaternion.Euler(rotVect);
-                    Instantiate(Plank, new Vector3(x, y), quat);
+                    var obj = Instantiate(Plank, vect, q(180)) as GameObject;
+                    obj.transform.SetParent(group);
                 }
             }
         }
