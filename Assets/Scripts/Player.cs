@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public float Speed;
-    public int Health = 100;
+    public int Health = 200;
     public GameObject Torch;
 
     private Rigidbody2D rb2d;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
         {
             DestroyImmediate(gameObject);
         }
+
     }
 
 	// Use this for initialization
@@ -29,7 +30,13 @@ public class Player : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
 	}
-
+	void Update()
+	{		
+		if (Health == 0)
+		{
+			DestroyObject (gameObject);
+		}
+	}
     public void FixedUpdate()
     {
         var hor = Input.GetAxisRaw("Horizontal");
@@ -51,14 +58,32 @@ public class Player : MonoBehaviour
         }
 		if (other.gameObject.tag == "Enemy")
 		{
-			Health -= 10;
+			Damage (100);
 		}
-		if (other.gameObject.tag == "Wall")
+		if (other.gameObject.tag == "TrapSloming")
 		{
-			Health -= 50;
+			Speed -= 150;
+		}
+		if (other.gameObject.tag == "Health")
+		{
+			Healing (50);
+		}
+		if (other.gameObject.tag == "BigHealth")
+		{
+			Healing (200);
 		}
     }
+	public void Damage(int damageCount){
+		Health -= damageCount;
 
+		if (Health <= 0) {
+			Destroy (gameObject);
+		}
+
+	}
+	public void Healing(int healthCount){
+		Health += healthCount;
+	}
     private void HandleInput()
     {
         // torch placement

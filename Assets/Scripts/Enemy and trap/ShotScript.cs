@@ -21,6 +21,7 @@ public class ShotScript : MonoBehaviour
 	{
 		// Ограниченное время жизни, чтобы избежать утечек
 		Destroy(gameObject, 5); // 20 секунд
+
 	}
 	public void OnCollisionEnter2D(Collision2D other)
 	{

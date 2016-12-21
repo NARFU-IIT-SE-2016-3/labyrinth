@@ -89,7 +89,7 @@ public class WeaponScript : MonoBehaviour
 		if (other.gameObject.tag == "Player")
 		{
 			Application.LoadLevel (Application.loadedLevel);
-			//Player.Destroy(Player);
+			//Player.Destroy(Player);		
 		}
 		if (other.gameObject.tag == "Wall")
 		{
