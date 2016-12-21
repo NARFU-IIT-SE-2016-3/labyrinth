@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public float Speed;
-    public int Health;
+    public int Health = 100;
     public GameObject Torch;
 
     private Rigidbody2D rb2d;
@@ -49,6 +49,14 @@ public class Player : MonoBehaviour
         {
             lastCollision = other.collider;
         }
+		if (other.gameObject.tag == "Enemy")
+		{
+			Health -= 10;
+		}
+		if (other.gameObject.tag == "Wall")
+		{
+			Health -= 50;
+		}
     }
 
     private void HandleInput()
@@ -89,4 +97,6 @@ public class Player : MonoBehaviour
             lastCollision = null;
         }
     }
+
+
 }
