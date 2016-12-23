@@ -78,6 +78,7 @@ public class Maze
 
         currentCell = Cells[startX, startY];
         currentCell.IsVisited = true;
+        currentCell.UpWall = false; // entrance
 
         while (!IsEveryCellVisited())
         {
