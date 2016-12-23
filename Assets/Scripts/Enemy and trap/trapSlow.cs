@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TrapSaw : MonoBehaviour
-{
+public class trapSlow : MonoBehaviour {
+
 	public int HealthSaw = 50;
 	public float speedRotate = 10.0f;
 	// Use this for initialization
@@ -11,15 +11,15 @@ public class TrapSaw : MonoBehaviour
 	private Vector2 movement;
 
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		movement = new Vector2 (speed.x * direction.x,
-			speed.y * direction.y);
+		//movement = new Vector2 (speed.x * direction.x,
+		//	speed.y * direction.y);
 		//Вращение
-		transform.Rotate (new Vector3 (0f, 0f, speedRotate));
+		//transform.Rotate (new Vector3 (0f, 0f, speedRotate));
 	}
 
 	void FixedUpdate(){
@@ -27,15 +27,15 @@ public class TrapSaw : MonoBehaviour
 	}
 	public void OnCollisionEnter2D(Collision2D other)
 	{		
-		Damage (10);
+		//Damage (10);
 		if (other.gameObject.tag == "Player")
-		{
-			Application.LoadLevel (Application.loadedLevel);
+		{			
+			//Application.LoadLevel (Application.loadedLevel);
 			//Player.Destroy(Player);
 		}
 		if (other.gameObject.tag == "Wall")
 		{
-			Damage (100);
+			//Damage (100);
 			//Player.Destroy(Player);
 		}
 	}
@@ -45,7 +45,6 @@ public class TrapSaw : MonoBehaviour
 		if (HealthSaw <= 0) {
 			Destroy (gameObject);
 		}
-	
-	}
 
+	}
 }

@@ -1,24 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Enemy generic behavior
 /// </summary>
 public class EnemyScript : MonoBehaviour
 {
-	private WeaponScript weapon;
+	private WeaponScript[] weapons;
 
 	void Awake()
 	{
 		// Получить оружие только один раз
-		weapon = GetComponent<WeaponScript>();
+		weapons = GetComponentsInChildren<WeaponScript>();
 	}
 
 	void Update()
 	{
-		// автоматическая стрельба
-		if (weapon != null && weapon.CanAttack)
+		foreach (WeaponScript weapon in weapons)
 		{
-			//weapon.Attack(true);
+			// автоматическая стрельба
+			if (weapon != null && weapon.CanAttack)
+			{
+				weapon.Attack(true);
+			}
 		}
 	}
 }
