@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -7,9 +8,15 @@ public class Player : MonoBehaviour
     public int Health;
     public GameObject Torch;
 
+	public UnityEvent OnCollect;
+	public UnityEvent OnTorchPlace;
+
     private Rigidbody2D rb2d;
     private static bool isInstantiated;
     private Collider2D lastCollision;
+
+    private int maxLives = 3;
+    private int lives = 1;
 
     public void Awake()
     {
@@ -22,6 +29,9 @@ public class Player : MonoBehaviour
         {
             DestroyImmediate(gameObject);
         }
+		OnCollect = new UnityEvent ();
+
+		OnTorchPlace = new UnityEvent ();
     }
 
 	// Use this for initialization
@@ -51,23 +61,35 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "LifeItem")
+        {
+            if (lives < maxLives)
+            {
+                lives++;
+                Destroy(other.gameObject);
+				OnCollect.Invoke ();
+            }
+        }
+    }
+
     private void HandleInput()
     {
         // torch placement
-        if (Input.GetKeyDown(KeyCode.E))
+		if (Input.GetKeyDown(KeyCode.E))
         {
             var pos = new Vector3(transform.position.x, transform.position.y, Torch.transform.position.z);
             Instantiate(Torch, pos, Quaternion.identity);
+			OnTorchPlace.Invoke ();
         }
-
-        // restart level
-        if (Input.GetKeyDown(KeyCode.R))
+		// restart
+		else if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(0);
         }
-
-        // start dialog
-        if (Input.GetKeyDown(KeyCode.F) && lastCollision != null)
+		// start dialog
+		else if (Input.GetKeyDown(KeyCode.F) && lastCollision != null)
         {
             var dialog = lastCollision.GetComponent<DialogLoader>();
             dialog.NextLine();
