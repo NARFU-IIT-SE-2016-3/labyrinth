@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     public int Health;
+    public int Satiety;
+
     public GameObject Torch;
 
 	public UnityEvent OnCollect;
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
 
     private int maxLives = 3;
     private int lives = 1;
+    private int maxSatiety;
 
     public void Awake()
     {
@@ -69,7 +72,15 @@ public class Player : MonoBehaviour
             {
                 lives++;
                 Destroy(other.gameObject);
-				OnCollect.Invoke ();
+				OnCollect.Invoke();
+            }
+        }
+        else if (other.tag == "Food")
+        {
+            if (Satiety < maxSatiety)
+            {
+                Satiety++;
+                Destroy(other.gameObject);
             }
         }
     }

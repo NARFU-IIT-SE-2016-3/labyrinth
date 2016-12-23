@@ -22,9 +22,14 @@ public static class Utils
     /// <typeparam name="T"></typeparam>
     /// <param name="array"></param>
     /// <returns></returns>
-    public static T PickItem<T>(params T[] array)
+    public static T PickItem<T>(T[] array)
     {
         return array[Random.Range(0, array.Length)];
+    }
+
+    public static T PickItem2<T>(T[,] array)
+    {
+        return array[Random.Range(0, array.GetLength(0)), Random.Range(0, array.GetLength(1))];
     }
 
     /// <summary>

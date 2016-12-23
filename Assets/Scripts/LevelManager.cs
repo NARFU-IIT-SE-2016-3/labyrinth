@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour
 
         var group = new GameObject("MazeGroup").transform;
 
+        // set planks
         for (var i = 0; i < maze.Width; i++)
         {
             for (var j = 0; j < maze.Height; j++)
@@ -109,5 +110,9 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+
+        // set exit door
+        var exitCell = Utils.PickItem2(maze.Cells);
+        Instantiate(Door, new Vector3(exitCell.Y, -exitCell.X), Quaternion.identity);
     }
 }
