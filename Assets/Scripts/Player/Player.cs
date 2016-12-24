@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     public int Health;
-    public int Satiety;
+    public int Satiety = 100;
 
     public GameObject Torch;
 
@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
 
     private int maxLives = 3;
     private int lives = 1;
-    private int maxSatiety;
+    private int maxSatiety = 100;
+    private float lastTimeUpdate;
 
     public void Awake()
     {
@@ -32,15 +33,15 @@ public class Player : MonoBehaviour
         {
             DestroyImmediate(gameObject);
         }
-		OnCollect = new UnityEvent ();
 
+		OnCollect = new UnityEvent ();
 		OnTorchPlace = new UnityEvent ();
     }
 
-	// Use this for initialization
 	public void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        lastTimeUpdate = Time.fixedTime;
 	}
 
     public void FixedUpdate()
@@ -54,6 +55,19 @@ public class Player : MonoBehaviour
 
         HandleInput();
         CheckDistance();
+
+        // Timer (hunger)
+        if (Time.fixedTime - lastTimeUpdate > 100f)
+        {
+            lastTimeUpdate = Time.fixedTime;
+            Satiety -= 1;
+
+            if (Satiety <= 0)
+            {
+                Debug.Log("You starved to death");
+                //SceneManager.LoadScene(1);
+            }
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D other)
@@ -97,7 +111,7 @@ public class Player : MonoBehaviour
 		// restart
 		else if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 		// start dialog
 		else if (Input.GetKeyDown(KeyCode.F) && lastCollision != null)
