@@ -5,6 +5,7 @@ public class LevelManager : MonoBehaviour
 {
     public static int Width = 20;
     public static int Height = 20;
+    public int Level = 1;
 
     public GameObject Wall;
     public GameObject Floor;
@@ -22,9 +23,18 @@ public class LevelManager : MonoBehaviour
 
         var maze = new Maze(Width, Height, 0, 0);
 
-        RenderFloor();
-        RenderMaze(maze);
-        //RenderLevel();
+        switch (Level)
+        {
+            case 1:
+                RenderFloor();
+                RenderMaze(maze);
+                break;
+            case 2:
+                RenderLevel();
+                break;
+            default:
+                break;
+        }
     }
 
     public void RenderFloor()
@@ -45,8 +55,6 @@ public class LevelManager : MonoBehaviour
     {
         var terrainGroup = new GameObject("TerrainGroup").transform;
 
-        var doorPos = new Vector3(Utils.RandInt(1, Width - 1), 0);
-
         for (var i = 0; i < Width; i++)
         {
             for (var j = 0; j < Height; j++)
@@ -54,11 +62,7 @@ public class LevelManager : MonoBehaviour
                 var floor = Instantiate(Floor, new Vector3(i, j), Quaternion.identity) as GameObject;
                 floor.transform.SetParent(terrainGroup);
 
-                if (i == doorPos.x && j == doorPos.y)
-                {
-                    Instantiate(Door, doorPos, Quaternion.identity);
-                }
-                else if (i == 0 || j == 0 || i == Width - 1 || j == Height -1)
+                if (i == 0 || j == 0 || i == Width - 1 || j == Height -1)
                 {
                     var wall = Instantiate(Wall, new Vector3(i, j), Quaternion.identity) as GameObject;
                     wall.transform.SetParent(terrainGroup);
