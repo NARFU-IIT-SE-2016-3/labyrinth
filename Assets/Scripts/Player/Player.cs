@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     public float Speed;
-    public int Health;
+    public int Health=100;
     public int Satiety = 100;
 
     public GameObject Torch;
@@ -43,7 +43,14 @@ public class Player : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         lastTimeUpdate = Time.fixedTime;
 	}
-
+	public void Update()
+	{
+		if (Health <= 0) 
+		{
+			Application.LoadLevel (Application.loadedLevel);
+			Health = 100;
+		}
+	}
     public void FixedUpdate()
     {
         var hor = Input.GetAxisRaw("Horizontal");
@@ -68,6 +75,7 @@ public class Player : MonoBehaviour
                 //SceneManager.LoadScene(1);
             }
         }
+
     }
 
     public void OnCollisionEnter2D(Collision2D other)
@@ -76,6 +84,7 @@ public class Player : MonoBehaviour
         {
             lastCollision = other.collider;
         }
+
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -97,9 +106,21 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+		else if (other.tag == "Health")
+		{
+			Health += 50;
+		}
+		else if (other.tag == "BigHealth")
+		{
+			Health += 150;
+		}
 		else if (other.tag == "TrapSloming")
 		{
 			Speed = Speed - 80;
+		}
+		else if (other.tag == "shot")
+		{
+			Health = Health - 50;
 		}
     }
 

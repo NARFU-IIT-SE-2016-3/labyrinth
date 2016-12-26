@@ -23,6 +23,17 @@ public class ShotScript : MonoBehaviour
 		Destroy(gameObject, 5); // 20 секунд
 
 	}
+	public void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Player")
+		{
+			Destroy(gameObject);
+		}
+		if (other.tag == "Wall")
+		{
+			Destroy(gameObject);
+		}
+	}
 	public void OnCollisionEnter2D(Collision2D other)
 	{
 		
