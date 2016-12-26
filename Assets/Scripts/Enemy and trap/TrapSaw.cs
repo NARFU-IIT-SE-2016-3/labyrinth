@@ -7,13 +7,14 @@ public class TrapSaw : MonoBehaviour
 	public float speedRotate = 10.0f;
 	// Use this for initialization
 	public Vector2 speed = new Vector2(10,10);
+	public float a = -1;
 	public Vector2 direction = new Vector2 (-1, 0);
 	private Vector2 movement;
 
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		movement = new Vector2 (speed.x * direction.x,
@@ -27,7 +28,7 @@ public class TrapSaw : MonoBehaviour
 	}
 	public void OnCollisionEnter2D(Collision2D other)
 	{		
-		Damage (10);
+		//Damage (10);
 		if (other.gameObject.tag == "Player")
 		{
 			Application.LoadLevel (Application.loadedLevel);
@@ -35,7 +36,16 @@ public class TrapSaw : MonoBehaviour
 		}
 		if (other.gameObject.tag == "Wall")
 		{
-			Damage (100);
+			if (a==-1) 
+			{
+				a = 1;
+				direction = new Vector2 (a, 0);
+			} 
+			else {
+				a = -1;
+				direction = new Vector2 (a, 0);
+			}
+			//Damage (100);
 			//Player.Destroy(Player);
 		}
 	}
@@ -45,7 +55,7 @@ public class TrapSaw : MonoBehaviour
 		if (HealthSaw <= 0) {
 			Destroy (gameObject);
 		}
-	
+
 	}
 
 }

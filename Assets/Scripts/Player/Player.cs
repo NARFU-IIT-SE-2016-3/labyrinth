@@ -97,6 +97,10 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+		else if (other.tag == "TrapSloming")
+		{
+			Speed = Speed - 80;
+		}
     }
 
     private void HandleInput()
