@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
             case 1:
                 RenderFloor();
                 RenderMaze(maze);
+                RenderLevel2();
                 break;
             case 2:
                 RenderLevel();
@@ -63,6 +64,26 @@ public class LevelManager : MonoBehaviour
                 floor.transform.SetParent(terrainGroup);
 
                 if (i == 0 || j == 0 || i == Width - 1 || j == Height -1)
+                {
+                    var wall = Instantiate(Wall, new Vector3(i, j), Quaternion.identity) as GameObject;
+                    wall.transform.SetParent(terrainGroup);
+                }
+            }
+        }
+    }
+
+    public void RenderLevel2()
+    {
+        var terrainGroup = new GameObject("TerrainGroup").transform;
+
+        for (var i = -1; i < Width + 1; i++)
+        {
+            for (var j = 1; j < Height; j++)
+            {
+                var floor = Instantiate(Floor, new Vector3(i, j), Quaternion.identity) as GameObject;
+                floor.transform.SetParent(terrainGroup);
+                
+                if (i == -1 || i == Width || j == Height - 1)
                 {
                     var wall = Instantiate(Wall, new Vector3(i, j), Quaternion.identity) as GameObject;
                     wall.transform.SetParent(terrainGroup);
